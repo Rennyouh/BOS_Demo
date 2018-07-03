@@ -2,6 +2,7 @@
 
 /RemoteSystemsTempFiles/
 /Servers/
+/.recommenders/
 */.settings/
 */target/
 *.classpath

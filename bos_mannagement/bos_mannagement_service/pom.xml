@@ -8,4 +8,11 @@
   <groupId>com.itpure</groupId>
   <artifactId>bos_mannagement_service</artifactId>
   <description>service业务逻辑</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.itpure</groupId>
+  		<artifactId>bos_mannagement_dao</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

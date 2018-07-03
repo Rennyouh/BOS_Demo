@@ -8,4 +8,12 @@
   <groupId>com.itpure</groupId>
   <artifactId>bos_mannagement_web</artifactId>
   <description>处理web层业务</description>
+  <packaging>war</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.itpure</groupId>
+  		<artifactId>bos_mannagement_service</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

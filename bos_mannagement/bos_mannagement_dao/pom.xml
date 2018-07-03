@@ -8,4 +8,11 @@
   <groupId>com.itpure</groupId>
   <artifactId>bos_mannagement_dao</artifactId>
   <description>处理DAO业务</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.itpure</groupId>
+  		<artifactId>bos_mannagement_domain</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
