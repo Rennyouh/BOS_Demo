@@ -1,6 +1,5 @@
 package com.itheima.bos.web.action.base;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -19,38 +18,37 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
-import com.itheima.bos.domain.base.Standard;
-import com.itheima.bos.service.StandardService;
+import com.itheima.bos.domain.base.Courier;
+import com.itheima.bos.service.CourierService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 @Namespace("/")
 @ParentPackage("struts-default")
 @Controller
 @Scope("prototype")
-public class StandardAction extends ActionSupport implements ModelDriven<Standard> {
+public class courierAction extends ActionSupport implements ModelDriven<Courier> {
 
-	private static final long serialVersionUID = 2817217081505713715L;
-	
-	private Standard model = new Standard();
+	private static final long serialVersionUID = -7007191727249932790L;
+
+	private Courier model = new Courier();
 	@Override
-	public Standard getModel() {
+	public Courier getModel() {
 		return model;
 	}
 	
 	@Autowired
-	private StandardService standardService;
+	private CourierService courierService;
 
-	@Action(value="standardAction_save", results= {@Result(name="SUCCESS", location="/pages/base/standard.html", type="redirect")})
+	@Action(value="courierAction_save", results= {@Result(name="SUCCESS", location="/pages/base/courier.html", type="redirect")})
 	public String save() {
-		standardService.save(model);
+		courierService.save(model);
 		return SUCCESS;
 	}
 	
-//	属性驱动
 	private int page;
 	private int rows;
 	
@@ -61,37 +59,22 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
 		this.rows = rows;
 	}
 
-	@Action(value="standardAction_pageQuery")
+	@Action(value="courierAction_pageQuery")
 	public String pageQuery() {
 		Pageable pageable = new PageRequest(page - 1, rows);
-		Page<Standard> page = standardService.pageQuery(pageable);
+		Page<Courier> page = courierService.pageQuery(pageable);
 		
 		long total = page.getTotalElements();
-		List<Standard> rows = page.getContent();
+		List<Courier> rows = page.getContent();
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("total", total);
 		map.put("rows", rows);
 		
-		String json = JSONObject.fromObject(map).toString();
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setExcludes(new String[] {"fixedAreas", "takeTime"});
 		
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setContentType("application/json;charset=UTF-8");
-		try {
-			response.getWriter().write(json);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return NONE;
-		
-	}
-	
-	@Action(value="standardAction_findAll")
-	public String findAll() {
-		List<Standard> standards = standardService.findAll();
-		
-		String json = JSONArray.fromObject(standards).toString();
+		String json = JSONObject.fromObject(map, jsonConfig).toString();
 		
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=UTF-8");
