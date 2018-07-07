@@ -25,11 +25,35 @@
 			}
 			
 			function doDelete(){
-				alert("删除...");
+				//alert("删除...");
+				var rows = $("#grid").datagrid("getSelections");
+				if (rows.length == 0) {
+					$.messager.alert("提示", "请至少选择一条数据进行删除", "warning");
+				} else{
+					var arr = new Array();
+					for (i = 0; i < rows.length; i ++) {
+						arr.push(rows[i].id);
+					}
+					var ids = arr.toString();
+					
+					window.location.href = "../../courierAction_batchDel.action?ids=" + ids;
+				}
 			}
 			
 			function doRestore(){
-				alert("将取派员还原...");
+				//alert("将取派员还原...");
+				var rows = $("#grid").datagrid("getSelections");
+				if (rows.length == 0) {
+					$.messager.alert("提示", "请至少选择一条数据进行还原", "warning");
+				} else{
+					var arr = new Array();
+					for (i = 0; i < rows.length; i ++) {
+						arr.push(rows[i].id);
+					}
+					var ids = arr.toString();
+					
+					window.location.href = "../../courierAction_batchRes.action?ids=" + ids;
+				}
 			}
 			//工具栏
 			var toolbar = [ {
@@ -47,11 +71,20 @@
 				text : '作废',
 				iconCls : 'icon-cancel',
 				handler : doDelete
-			},{
+			}, {
 				id : 'button-restore',
 				text : '还原',
 				iconCls : 'icon-save',
 				handler : doRestore
+			}, {
+				id : 'button-search',
+				text : '查询',
+				iconCls : 'icon-search',
+				handler : function() {
+					$("#searchForm").form("clear");
+					
+					$('#searchWindow').window("open");
+				}
 			}];
 			// 定义列
 			var columns = [ [ {
@@ -149,7 +182,7 @@
 				
 				// 添加取派员窗口
 				$('#addWindow').window({
-			        title: '添加取派员',
+			        title: '添加或修改取派员',
 			        width: 800,
 			        modal: true,
 			        shadow: true,
@@ -170,6 +203,36 @@
 					$("#courierForm").submit();
 				}
 			}
+			
+			// 把form表单中的内容拼接成json字符串
+			$.fn.serializeJson = function() {
+				var serializeObj = {};
+				var array = this.serializeArray();
+				var str = this.serialize();
+				$(array).each(
+						function() {
+							if (serializeObj[this.name]) {
+								if ($.isArray(serializeObj[this.name])) {
+									serializeObj[this.name].push(this.value);
+								} else {
+									serializeObj[this.name] = [
+											serializeObj[this.name], this.value ];
+								}
+							} else {
+								serializeObj[this.name] = this.value;
+							}
+						});
+				return serializeObj;
+			};
+			
+			function doSearch() {
+				var json = $("#searchForm").serializeJson();
+				
+				$("#grid").datagrid('load', json);
+				
+				$("#searchWindow").window("close");
+			}
+			
 		</script>
 	</head>
 
@@ -180,7 +243,7 @@
 		<div class="easyui-window" title="对收派员进行添加或者修改" id="addWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 			<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
 				<div class="datagrid-toolbar">
-					<a id="save" icon="icon-save" href="#" onclick="subitdata()" class="easyui-linkbutton" plain="true">保存</a>
+					<a id="save" icon="icon-save" href="#" onclick="subitdata()" class="easyui-linkbutton" plain="true" >保存</a>
 				</div>
 			</div>
 
@@ -281,7 +344,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2"><a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
+							<td colspan="2"><a id="searchBtn" href="#" onclick="doSearch()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
 						</tr>
 					</table>
 				</form>

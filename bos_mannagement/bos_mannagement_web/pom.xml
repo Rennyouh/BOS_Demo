@@ -15,5 +15,10 @@
   		<artifactId>bos_mannagement_service</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>com.itpure</groupId>
+  		<artifactId>itpureUtils</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

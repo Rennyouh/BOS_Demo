@@ -44,7 +44,7 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
 	@Autowired
 	private StandardService standardService;
 
-	@Action(value="standardAction_save", results= {@Result(name="SUCCESS", location="/pages/base/standard.html", type="redirect")})
+	@Action(value="standardAction_save", results= {@Result(name="success", location="/pages/base/standard.html", type="redirect")})
 	public String save() {
 		standardService.save(model);
 		return SUCCESS;
