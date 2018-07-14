@@ -30,5 +30,18 @@ public class AreaServiceImpl implements AreaService{
 		return page;
 	}
 
+	@Override
+	public List<Area> findAll() {
+		List<Area> list = areaRepository.findAll();
+		return list;
+	}
+
+	@Override
+	public List<Area> findByQ(String q) {
+		q = "%" + q.toUpperCase() + "%";
+		List<Area> list = areaRepository.findByQ(q);
+		return list;
+	}
+
 	
 }

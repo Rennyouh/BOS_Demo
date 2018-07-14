@@ -16,6 +16,7 @@ import com.itheima.bos.domain.base.Area;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
@@ -93,6 +94,20 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
         HttpServletResponse response = ServletActionContext.getResponse();
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(json);
+    }
+    
+    public void list2Json(List<T> list, String[] excludes) throws IOException {
+    	
+    	JsonConfig config = new JsonConfig();
+    	config.setExcludes(excludes);
+    	
+    	// JSONObject : 把一个对象或者map集合转换成json字符串
+    	// JSONArray : 把数组或者list集合转换成json字符串
+    	String json = JSONArray.fromObject(list, config).toString();
+    	
+    	HttpServletResponse response = ServletActionContext.getResponse();
+    	response.setContentType("application/json;charset=UTF-8");
+    	response.getWriter().write(json);
     }
 
 }

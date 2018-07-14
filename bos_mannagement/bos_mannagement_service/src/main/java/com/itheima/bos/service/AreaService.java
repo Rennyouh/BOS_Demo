@@ -13,4 +13,8 @@ public interface AreaService {
 
 	Page<Area> pageQuery(Pageable pageable);
 
+	List<Area> findAll();
+
+	List<Area> findByQ(String q);
+
 }

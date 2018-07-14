@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -110,6 +111,30 @@ public class AreaAction extends BaseAction<Area> {
 		
 		try {
 			page2Json(page, new String[] {"subareas"});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return NONE;
+	}
+	
+	private String q;
+	public void setQ(String q) {
+		this.q = q;
+	}
+
+	@Action(value = "areaAction_findAll")
+	public String findAll() {
+		List<Area> list = null;
+		
+		if (StringUtils.isNotEmpty(q)) {
+			list = areaService.findByQ(q);
+		}else {
+			list = areaService.findAll();
+		}
+		
+		try {
+			list2Json(list, new String[] {"subareas"});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
