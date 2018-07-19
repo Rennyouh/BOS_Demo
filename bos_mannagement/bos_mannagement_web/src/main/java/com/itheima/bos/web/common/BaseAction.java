@@ -96,7 +96,7 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
         response.getWriter().write(json);
     }
     
-    public void list2Json(List<T> list, String[] excludes) throws IOException {
+    public void list2Json(List list, String[] excludes) throws IOException {
     	
     	JsonConfig config = new JsonConfig();
     	config.setExcludes(excludes);
